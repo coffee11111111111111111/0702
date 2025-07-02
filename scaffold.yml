@@ -4,21 +4,23 @@ on:
 
 permissions:
   contents: write
-  workflows: write
+  workflows: write       # → 仍要保留
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # 1) Checkout 用 PAT，而且關掉 persist-credentials
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          token: ${{ secrets.PAT }}        # ← 用你的 PAT
+          persist-credentials: false       # ← 不要把預設 token 寫進 repo
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      # 2) Python
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install deps
         run: pip install --upgrade pip
@@ -26,10 +28,11 @@ jobs:
       - name: Run scaffold
         run: python scaffold.py
 
+      # 3) Auto-commit 也指定 PAT
       - name: Auto commit generated files
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github_token: ${{ secrets.PAT }}      # ← 這行讓 action 用你的 PAT
+          github_token: ${{ secrets.PAT }}   # ← 一定要這行
           commit_message: "🛠️ init UniTrader-RL scaffold"
           branch: main
           file_pattern: |
