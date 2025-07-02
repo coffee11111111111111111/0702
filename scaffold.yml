@@ -27,12 +27,11 @@ jobs:
 
       - name: Run scaffold
         run: python scaffold.py
-
-      # 3) Auto-commit 也指定 PAT
       - name: Auto commit generated files
         uses: stefanzweifel/git-auto-commit-action@v4
+        env:                         # ← 這裡才是關鍵
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
-          github_token: ${{ secrets.PAT }}   # ← 一定要這行
           commit_message: "🛠️ init UniTrader-RL scaffold"
           branch: main
           file_pattern: |
