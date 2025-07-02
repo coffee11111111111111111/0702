@@ -28,9 +28,8 @@ jobs:
 
       - name: Auto commit generated files
         uses: stefanzweifel/git-auto-commit-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}     # ← 用你剛才存的 PAT
         with:
+          github_token: ${{ secrets.PAT }}      # ← 這行讓 action 用你的 PAT
           commit_message: "🛠️ init UniTrader-RL scaffold"
           branch: main
           file_pattern: |
