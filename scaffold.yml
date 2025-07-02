@@ -36,3 +36,4 @@ jobs:
           branch: main
           file_pattern: |
             **/*
+            !.github/workflows/ci.yml
