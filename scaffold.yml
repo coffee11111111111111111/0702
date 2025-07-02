@@ -1,9 +1,10 @@
 name: Scaffold UniTrader-RL
-
-# 手動觸發也可以排程觸發
 on:
   workflow_dispatch:
-  # 你也可以改成 on: [push]，每次 push 都會檢查 scaffold
+
+permissions:
+  contents: write
+  workflows: write      # 允許自動更新 workflow 檔
 
 jobs:
   build:
