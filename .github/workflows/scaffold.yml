@@ -1,0 +1,31 @@
+name: Scaffold UniTrader-RL
+
+# 手動觸發也可以排程觸發
+on:
+  workflow_dispatch:
+  # 你也可以改成 on: [push]，每次 push 都會檢查 scaffold
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # 允許後續的 commit/push
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install deps
+        run: pip install --upgrade pip
+      - name: Run scaffold
+        run: python scaffold.py
+      - name: Auto commit generated files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🛠️ init UniTrader-RL scaffold"
+          branch: main
+          file_pattern: |
+            **/*
+
